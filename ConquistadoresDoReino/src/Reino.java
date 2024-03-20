@@ -59,28 +59,26 @@ public class Reino {
     /**
      * Método para definir a quantidade de soldados atacantes em um ataque.
      * @param atacantes A quantidade de soldados atacantes.
-     * @param reino O reino que está realizando o ataque.
      */
-    public void soldadosAtacantes(int atacantes, Reino reino){
-        if (atacantes < 0 || atacantes > reino.getSoldados()) {
+    public void soldadosAtacantes(int atacantes){
+        if (atacantes < 0 || atacantes > this.getSoldados()) {
             System.out.println("Quantidade de soldados inválida para os atacantes");
         } else {
-            reino.setSoldadosAtk(atacantes);
-            reino.setSoldados(reino.getSoldados() - atacantes);
+            this.setSoldadosAtk(atacantes);
+            this.setSoldados(this.getSoldados() - atacantes);
         }
     }
 
     /**
      * Método para definir a quantidade de soldados defensores em uma defesa.
      * @param defensores A quantidade de soldados defensores.
-     * @param reino O reino que está se defendendo.
      */
-    public void soldadosDefensores(int defensores, Reino reino){
-        if (defensores < 0 || defensores > reino.getSoldados()) {
+    public void soldadosDefensores(int defensores){
+        if (defensores < 0 || defensores > this.getSoldados()) {
             System.out.println("Quantidade de soldados inválida para os defensores");
         } else {
-            reino.setSoldadosDef(defensores);
-            reino.setSoldados(reino.getSoldados() - defensores); // Subtrai a quantidade de soldados defensores do total de soldados
+            this.setSoldadosDef(defensores);
+            this.setSoldados(this.getSoldados() - defensores); // Subtrai a quantidade de soldados defensores do total de soldados
         }
     }
 
@@ -119,6 +117,7 @@ public class Reino {
     }
 
     public int getSoldados() {
+        int soldados = this.getSoldadosDef() + this.getSoldadosAtk() + this.soldados;
         return soldados;
     }
 

@@ -13,14 +13,19 @@ public class Sys {
             int perdaAtaque = reinoDefensor.getSoldadosDef();
             reinoAtacante.setSoldadosAtk(reinoAtacante.getSoldadosAtk() - perdaAtaque);
             System.out.println("O reino atacante venceu o combate!");
+
+            int reducaoInfluencia = (int) Math.ceil(reinoDefensor.getInfluencia() * 0.3); // perdedor perde 30% de influência
+            reinoDefensor.setInfluencia(reinoDefensor.getInfluencia() - reducaoInfluencia);
             return reinoAtacante;
         } else if (reinoDefensor.getSoldadosDef() > reinoAtacante.getSoldadosAtk()) {
             // Defesa ganha: subtrai soldados dos reinos e ajusta tropas
             double perdaAtaque = reinoAtacante.getSoldadosAtk() * 0.5; // Ataque perde metade das tropas atacantes
             double perdaDefesa = reinoAtacante.getSoldadosAtk() * 0.1; // Defesa perde 10% das tropas atacantes
             reinoAtacante.setSoldadosAtk((int)Math.floor(reinoAtacante.getSoldadosAtk() - perdaAtaque));
-            reinoDefensor.setSoldadosDef(0); // O reino defensor perde todas as tropas defensoras
+            reinoDefensor.setSoldadosDef((int)Math.floor(reinoDefensor.getSoldadosDef() - perdaDefesa));
             System.out.println("O reino defensor venceu o combate!");
+            int reducaoInfluencia = (int) Math.ceil(reinoAtacante.getInfluencia() * 0.3);
+            reinoAtacante.setInfluencia(reinoAtacante.getInfluencia() - reducaoInfluencia); // Perdedor perde 30% da influência
             return reinoDefensor;
         } else {
             // Empate: não há perda de tropas
@@ -42,14 +47,12 @@ public class Sys {
             reinoMaior.setSoldados(reinoMaior.getSoldados() + reinoMenor.getSoldados());
             reinoMaior.setServentes(reinoMaior.getServentes() + reinoMenor.getServentes());
 
-            // Definir o líder do reino menor como o líder do reino maior
-            reinoMaior.setLider(reinoMenor.getLider());
 
             // Após a transferência, reino menor é "destruído"
             reinoMenor.setInfluencia(0);
             reinoMenor.setSoldados(0);
             reinoMenor.setServentes(0);
-            reinoMenor.setLider(null);
+            reinoMenor.setLider(reinoMaior.getLider());
 
             System.out.println("Unificação concluída!");
         } else {

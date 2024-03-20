@@ -13,6 +13,7 @@
 
 
         public static void main(String[] args) {
+
             SwingUtilities.invokeLater(Menu::criarTelaInicial);
         }
 
@@ -92,6 +93,7 @@
             JTextField textFieldNome = new JTextField(20);
             panelNome.add(labelNome);
             panelNome.add(textFieldNome);
+
 
             // Painel para escolha do reino
             JPanel panelEscolhaReino = new JPanel();
@@ -297,6 +299,15 @@
             panel.add(btnAtacarReino);
 
 
+            JButton btnDistribuirTropas = new JButton("Distribuir Tropas");
+            btnDistribuirTropas.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    abrirJanelaDistribuicaoTropas(reino);
+                }
+            });
+            panel.add(btnDistribuirTropas);
+
             frame.pack();
             centralizarJanela(frame);
             frame.setVisible(true);
@@ -311,16 +322,16 @@
             Lider lider5 = new Lider("Tercio");
 
             // Criar os reinos e associar os líderes
-            Reino reino1 = new Reino("Prontera", 100, 0, 0, 0, 0);
+            Reino reino1 = new Reino("Prontera", 1000, 0, 0, 0, 0);
             reino1.setLider(lider1);
 
-            Reino reino2 = new Reino("Morroc", 100, 0, 0, 0, 0);
+            Reino reino2 = new Reino("Morroc", 100, 0, 0, 50, 0);
             reino2.setLider(lider2);
 
-            Reino reino3 = new Reino("Gefen", 100, 0, 0, 0, 0);
+            Reino reino3 = new Reino("Gefen", 100, 0, 0, 50, 0);
             reino3.setLider(lider3);
 
-            Reino reino4 = new Reino("Pyon", 100, 0, 0, 0, 0);
+            Reino reino4 = new Reino("Pyon", 100, 0, 0, 50, 0);
             reino4.setLider(lider4);
 
             Reino reino5 = new Reino("Izold", 100, 0, 0, 0, 0);
@@ -411,5 +422,56 @@
             centralizarJanela(unificarFrame);
             unificarFrame.setVisible(true);
         }
+
+        // Adicione este método à classe Menu
+        public static void abrirJanelaDistribuicaoTropas(Reino reino) {
+            JFrame distribuicaoFrame = new JFrame("Distribuição de Tropas");
+            JPanel distribuicaoPanel = new JPanel(new GridLayout(0, 1));
+            distribuicaoFrame.add(distribuicaoPanel);
+
+            JLabel labelInstrucao = new JLabel("Distribua suas tropas para ataque e defesa:");
+            distribuicaoPanel.add(labelInstrucao);
+
+            JTextField textFieldAtaque = new JTextField(10);
+            JTextField textFieldDefesa = new JTextField(10);
+
+            distribuicaoPanel.add(new JLabel("Tropas para Ataque:"));
+            distribuicaoPanel.add(textFieldAtaque);
+            distribuicaoPanel.add(new JLabel("Tropas para Defesa:"));
+            distribuicaoPanel.add(textFieldDefesa);
+
+            JButton btnDistribuir = new JButton("Distribuir Tropas");
+            btnDistribuir.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String strTropasAtaque = textFieldAtaque.getText();
+                    String strTropasDefesa = textFieldDefesa.getText();
+
+                    try {
+                        int tropasAtaque = Integer.parseInt(strTropasAtaque);
+                        int tropasDefesa = Integer.parseInt(strTropasDefesa);
+
+                        if (tropasAtaque < 0 || tropasDefesa < 0) {
+                            JOptionPane.showMessageDialog(null, "Por favor, insira um número positivo de tropas.");
+                        } else if (tropasAtaque + tropasDefesa > reino.getSoldados()) {
+                            JOptionPane.showMessageDialog(null, "Você não possui tantas tropas disponíveis.");
+                        } else {
+                            reino.soldadosAtacantes(tropasAtaque);
+                            reino.soldadosDefensores(tropasDefesa);
+                            JOptionPane.showMessageDialog(null, "Tropas distribuídas com sucesso.");
+                            distribuicaoFrame.dispose();
+                        }
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Por favor, insira números válidos para as tropas.");
+                    }
+                }
+            });
+            distribuicaoPanel.add(btnDistribuir);
+
+            distribuicaoFrame.pack();
+            centralizarJanela(distribuicaoFrame);
+            distribuicaoFrame.setVisible(true);
+        }
+
 
     }
