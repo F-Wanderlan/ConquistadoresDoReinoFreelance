@@ -156,4 +156,16 @@ public class Reino {
     public void setReputacao(int reputacao) {
         this.reputacao = reputacao;
     }
+
+    public String toString() {
+        return "Reino{" +
+                "nome='" + nome + '\'' +
+                ", influencia=" + influencia +
+                ", soldados=" + soldados +
+                ", soldadosAtk=" + soldadosAtk +
+                ", soldadosDef=" + soldadosDef +
+                ", serventes=" + serventes +
+                ", reputacao=" + reputacao +
+                '}';
+    }
 }
