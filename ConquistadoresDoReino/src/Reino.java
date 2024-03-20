@@ -12,6 +12,7 @@ public class Reino {
 
     private String nome;
     private int influencia, soldados, soldadosAtk, soldadosDef, serventes, reputacao;
+    private Map<String, Reino> relacoes;
 
 
     public Reino(String nome, int influencia, int soldados, int soldadosAtk, int soldadosDef, int serventes) {
@@ -168,4 +169,32 @@ public class Reino {
                 ", reputacao=" + reputacao +
                 '}';
     }
+
+    public void adicionarInfluencia(int quantidadeInfluencia) {
+        this.influencia +=quantidadeInfluencia;
+    }
+    public void removerInfluencia(int quantidadeInfluencia){
+        this.influencia -= quantidadeInfluencia;
+    }
+
+    public void doarInfluencia(int quantidadeInfluencia, Reino destinatario) {
+        if (quantidadeInfluencia <= 0 && quantidadeInfluencia >= destinatario.getInfluencia()) {
+            System.out.println("Quantidade de influência inválida para doação.");
+            return;
+        }
+
+        // Transferir a influência do reino doador para o reino receptor
+        destinatario.adicionarInfluencia(quantidadeInfluencia);
+        destinatario.removerInfluencia(quantidadeInfluencia);
+
+        // Melhorar a relação entre os líderes associados a esses reinos
+        //melhorarRelacao(destinatario);
+
+        System.out.println("Doação de influência concluída. Relação melhorada entre " +
+                this.getLider().getNome() + " e " + destinatario.lider.getNome());
+    }
+
+
+
+
 }

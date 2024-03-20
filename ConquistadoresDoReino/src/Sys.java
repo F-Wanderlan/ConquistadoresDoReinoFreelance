@@ -54,6 +54,7 @@ public class Sys {
             System.out.println("Unificação concluída!");
         } else {
             System.out.println("Não é possível unificar os reinos. A diferença percentual de influência é inferior a 70%.");
+
         }
     }
 

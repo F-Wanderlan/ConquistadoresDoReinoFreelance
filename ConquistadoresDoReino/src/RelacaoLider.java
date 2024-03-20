@@ -1,5 +1,4 @@
-import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 public class RelacaoLider {
 
@@ -7,10 +6,14 @@ public class RelacaoLider {
     private String relacao;
     private Lider lider2;
 
-
-
-    public void melhorarRelacao(RelacaoLider atual){
-        switch (atual.relacao){
+    /**
+     * Método para melhorar a relação entre os líderes.
+     * Atualiza a relação para o próximo nível.
+     * Caso a relação já esteja no máximo, imprime uma mensagem indicando isso.
+     * @param atual A relação atual entre os líderes.
+     */
+    public void melhorarRelacao(RelacaoLider atual) {
+        switch (atual.relacao) {
             case "Ruim":
                 atual.setRelacao("Neutra");
                 break;
@@ -18,13 +21,18 @@ public class RelacaoLider {
                 atual.setRelacao("Boa");
                 break;
             default:
-                System.out.println("Relação já está no maximo");
+                System.out.println("Relação já está no máximo.");
         }
-
     }
 
-    public void reduzirRelacao(RelacaoLider atual){
-        switch (atual.relacao){
+    /**
+     * Método para reduzir a relação entre os líderes.
+     * Atualiza a relação para o nível anterior.
+     * Caso a relação já esteja no mínimo, imprime uma mensagem indicando isso.
+     * @param atual A relação atual entre os líderes.
+     */
+    public void reduzirRelacao(RelacaoLider atual) {
+        switch (atual.relacao) {
             case "Neutra":
                 atual.setRelacao("Ruim");
                 break;
@@ -32,28 +40,35 @@ public class RelacaoLider {
                 atual.setRelacao("Neutra");
                 break;
             default:
-                System.out.println("Relação está no minimo");
+                System.out.println("Relação está no mínimo.");
         }
     }
 
-
-    public void doarInfluencia(int quantidadeInfluencia, RelacaoLider atual){
-        if (quantidadeInfluencia <= 0) {
-            System.out.println("Quantidade de influência inválida para doação");
+    /**
+     * Método para doar influência de um líder para outro.
+     * Verifica se a quantidade de influência é válida antes de realizar a transferência.
+     * Após a doação, a relação entre os líderes é melhorada.
+     * @param quantidadeInfluencia A quantidade de influência a ser doada.
+     * @param atual A relação atual entre os líderes.
+     */
+    public void doarInfluencia(int quantidadeInfluencia, RelacaoLider atual) {
+        if (quantidadeInfluencia <= 0 && quantidadeInfluencia >= atual.lider1.getReino().getInfluencia()) {
+            System.out.println("Quantidade de influência inválida para doação.");
             return;
         }
 
-        // 1. Transferir a influência do reino doador para o reino receptor
-        atual.getLider2().getReino().setInfluencia(atual.getLider2().getReino().getInfluencia() + quantidadeInfluencia);
-        atual.getLider1().getReino().setInfluencia(atual.getLider1().getReino().getInfluencia() - quantidadeInfluencia);
+        // Transferir a influência do reino doador para o reino receptor
+        atual.getLider2().getReino().adicionarInfluencia(quantidadeInfluencia);
+        atual.getLider1().getReino().removerInfluencia(quantidadeInfluencia);
 
-        // 2. Melhorar a relação entre os líderes associados a esses reinos
+        // Melhorar a relação entre os líderes associados a esses reinos
         melhorarRelacao(atual);
 
-        System.out.println("Doação de influência concluída. Relação melhorada entre " + atual.getLider1().getNome() + " e " + atual.getLider2().getNome());
+        System.out.println("Doação de influência concluída. Relação melhorada entre " +
+                atual.getLider1().getNome() + " e " + atual.getLider2().getNome());
     }
 
-
+    // Getters e setters
     public Lider getLider1() {
         return lider1;
     }
