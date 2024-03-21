@@ -2,15 +2,17 @@
     import java.awt.*;
     import java.awt.event.ActionEvent;
     import java.awt.event.ActionListener;
+    import java.awt.event.MouseAdapter;
+    import java.awt.event.MouseEvent;
     import java.util.*;
     import java.util.List;
 
     public class Menu {
 
         private static JFrame frame;
-        private static Map<String, Reino> reinosGeral;
+        private static Map<String, Reino> reinosGeral = new LinkedHashMap<>();
 
-        public static Turno turno = new Turno(null);
+        public static Turno turno = new Turno(new ArrayList<>(reinosGeral.values()));
 
 
         public static void main(String[] args) {
@@ -46,8 +48,7 @@
             btnVerPontuacao.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // Lógica para verificar a melhor pontuação
-                    JOptionPane.showMessageDialog(frame, "Implementação para verificar melhor pontuação aqui.");
+
                 }
             });
             panel.add(btnVerPontuacao);
@@ -114,10 +115,10 @@
                         String nomeJogador = textFieldNome.getText();
                         if (!nomeJogador.isEmpty()) {
                             Lider lider = new Lider(nomeJogador);
+                            lider.setJogador(true);
                             Reino reino = reinosGeral.get(reinoInicial);
-                            reino.setLider(lider);
+                            reinosGeral.get(reinoInicial).setLider(lider);
                             frame.dispose();
-                            abrirMenuAcoes(reino);
                             // Mensagem para informar ao jogador que o reino pertence a ele
                             JOptionPane.showMessageDialog(null, "Parabéns, você agora é o líder de " + reino.getNome() + "!");
                             // Mensagem para explicar as ações disponíveis no jogo
@@ -125,6 +126,8 @@
                             mensagem += "unificar reinos sob sua bandeira e até mesmo atacar reinos inimigos. ";
                             mensagem += "O objetivo final é conquistar todos os reinos e se tornar o líder supremo!";
                             JOptionPane.showMessageDialog(null, mensagem);
+                            Turno turno = new Turno(new ArrayList<>(reinosGeral.values()));
+                            turno.iniciarTurnos();
                         } else {
                             JOptionPane.showMessageDialog(frame, "Por favor, digite seu nome.");
                         }
@@ -141,9 +144,6 @@
             centralizarJanela(frame);
             frame.setVisible(true);
 
-
-            List<Reino> a = new ArrayList<>(reinosGeral.values());
-            turno.setOrdemTurnos(a);
 
         }
 
@@ -293,6 +293,8 @@
                                 JOptionPane.showMessageDialog(null, "O combate ao reino " + nomeReinoAtacado + " terminou em empate.");
                             }
                             atacarFrame.dispose();
+                            frame.dispose();
+                            turno.iniciarTurnos();
                         }
                     });
                     atacarPanel.add(btnAtacar);
@@ -317,6 +319,7 @@
             frame.pack();
             centralizarJanela(frame);
             frame.setVisible(true);
+
         }
 
         private static void inicializarReinos() {
@@ -479,6 +482,14 @@
             distribuicaoFrame.setVisible(true);
         }
 
+        public static Turno getTurno() {
+            return turno;
+        }
+
+        public static void setTurno(Turno turno) {
+            Menu.turno = turno;
+        }
+
         public static Map<String, Reino> getReinosGeral() {
             return reinosGeral;
         }
@@ -486,4 +497,6 @@
         public static void setReinosGeral(Map<String, Reino> reinosGeral) {
             Menu.reinosGeral = reinosGeral;
         }
+
+
     }

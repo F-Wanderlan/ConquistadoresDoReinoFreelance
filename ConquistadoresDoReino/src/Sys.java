@@ -29,7 +29,7 @@ public class Sys {
     }
 
 
-    public void unificarReino(Reino reinoMaior, Reino reinoMenor) {
+    public boolean unificarReino(Reino reinoMaior, Reino reinoMenor) {
         double diferencaPercentual = (double)(reinoMaior.getInfluencia() - reinoMenor.getInfluencia()) / reinoMenor.getInfluencia() * 100;
 
         if (diferencaPercentual >= 70) {
@@ -49,8 +49,10 @@ public class Sys {
             reinoMenor.setLider(reinoMaior.getLider());
 
             System.out.println("Unificação concluída!");
+            return true;
         } else {
             System.out.println("Não é possível unificar os reinos. A diferença percentual de influência é inferior a 70%.");
+            return false;
 
         }
     }
