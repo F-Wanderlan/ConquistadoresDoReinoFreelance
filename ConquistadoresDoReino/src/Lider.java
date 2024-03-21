@@ -6,6 +6,7 @@ public class Lider {
     private String nome;
     private Reino reino;
 
+    private boolean jogador = false;
     private Map<String, RelacaoLider> relacoes;
 
     public Lider(String nome) {
@@ -25,6 +26,18 @@ public class Lider {
             throw new IllegalArgumentException("Nome do líder não pode ser nulo ou vazio");
         }
         this.nome = nome;
+    }
+
+    public boolean isJogador() {
+        return jogador;
+    }
+
+    public void setJogador(boolean jogador) {
+        this.jogador = jogador;
+    }
+
+    public void setRelacoes(Map<String, RelacaoLider> relacoes) {
+        this.relacoes = relacoes;
     }
 
     public Reino getReino() {

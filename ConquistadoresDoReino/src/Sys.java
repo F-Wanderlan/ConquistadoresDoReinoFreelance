@@ -1,11 +1,5 @@
 public class Sys {
 
-    int turnos;
-
-    public void contadorDeTurnos(){
-        turnos++;
-    }
-
     public Reino combateEntreReinos(Reino reinoAtacante, Reino reinoDefensor){
         if (reinoAtacante.getSoldadosAtk() > reinoDefensor.getSoldadosDef()) {
             // Ataque ganha: subtrai soldados do reino defensor e ajusta tropas do reino atacante

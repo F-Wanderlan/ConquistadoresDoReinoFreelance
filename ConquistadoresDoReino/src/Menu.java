@@ -2,14 +2,15 @@
     import java.awt.*;
     import java.awt.event.ActionEvent;
     import java.awt.event.ActionListener;
-    import java.util.HashMap;
-    import java.util.LinkedHashMap;
-    import java.util.Map;
+    import java.util.*;
+    import java.util.List;
 
     public class Menu {
 
         private static JFrame frame;
         private static Map<String, Reino> reinosGeral;
+
+        public static Turno turno = new Turno(null);
 
 
         public static void main(String[] args) {
@@ -139,6 +140,11 @@
             frame.pack();
             centralizarJanela(frame);
             frame.setVisible(true);
+
+
+            List<Reino> a = new ArrayList<>(reinosGeral.values());
+            turno.setOrdemTurnos(a);
+
         }
 
 
@@ -473,5 +479,11 @@
             distribuicaoFrame.setVisible(true);
         }
 
+        public static Map<String, Reino> getReinosGeral() {
+            return reinosGeral;
+        }
 
+        public static void setReinosGeral(Map<String, Reino> reinosGeral) {
+            Menu.reinosGeral = reinosGeral;
+        }
     }
